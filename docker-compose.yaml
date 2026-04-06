@@ -1,0 +1,23 @@
+services:
+  trino:
+    image: eclipse-temurin:${TRINO_IMAGE_TAG}
+    ports:
+      - "28080:8080"
+    container_name: trino
+#    user: root
+    mem_limit: 2g
+    environment:
+      - HADOOP_USER_NAME=root
+    entrypoint: /bin/bash /tmp/trino/init.sh
+    volumes:
+      - ./conf/trino:/etc/trino
+      - ./init/trino:/tmp/trino
+      - ./init/common:/tmp/common
+      - ./healthcheck:/tmp/healthcheck
+      - ~/project/trino/core/trino-server/target/trino-server-480.tar.gz:/usr/lib/trino-server.tar.gz
+    healthcheck:
+      test: ["CMD", "/tmp/healthcheck/trino-healthcheck.sh"]
+      interval: 120s
+      timeout: 60s
+      retries: 5
+      start_period: 60s
