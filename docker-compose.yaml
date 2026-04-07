@@ -3,6 +3,7 @@ services:
     image: eclipse-temurin:${TRINO_IMAGE_TAG}
     ports:
       - "28080:8080"
+      - "29043:9043"
     container_name: trino
 #    user: root
     mem_limit: 2g

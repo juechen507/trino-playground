@@ -16,9 +16,9 @@ Install Git (optional), Docker, Docker Compose.
 
 The playground runs several services. The TCP ports used may clash with existing services you run, such as MySQL or Postgres.
 
-| Docker container      | Ports used             |
-| --------------------- |------------------------|
-| playground-trino      | 28080                  |
+| Docker container      | Ports used  |
+| --------------------- |-------------|
+| playground-trino      | 28080,29043 |
 
 ## Playground usage
 
