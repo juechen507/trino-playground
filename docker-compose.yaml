@@ -4,6 +4,7 @@ services:
     ports:
       - "28080:8080"
       - "29043:9043"
+      - "5005:5005"
     container_name: trino
 #    user: root
     mem_limit: 2g

@@ -28,7 +28,7 @@ playgroundRuntimeName="trino-playground"
 requiredDiskSpaceGB=25
 requiredRamGB=2
 requiredCpuCores=2
-requiredPorts=(28080,29043)
+requiredPorts=(28080,29043,5005)
 dockerComposeCommand=""
 
 testDocker() {
