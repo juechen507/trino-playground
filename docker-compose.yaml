@@ -23,3 +23,12 @@ services:
       timeout: 60s
       retries: 5
       start_period: 60s
+
+  jeager:
+    image: jaegertracing/all-in-one:${JAEGER_IMAGE_TAG}
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true

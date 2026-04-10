@@ -51,3 +51,7 @@ docker exec -it trino bash
 ```shell
 trino
 ```
+
+## Browse Web UI
+- Trino Web UI：[http://localhost:28080](http://localhost:28080)
+- Jaeger UI（Trace）：[http://localhost:16686/](http://localhost:16686)
