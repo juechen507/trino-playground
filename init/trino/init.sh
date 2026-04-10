@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # install toolst
-apt update && apt install -y less vim net-tools telnet curl
+# apt update && apt install -y less vim net-tools telnet curl
 
 # install Trino server and CLI
 if [[ ! -d /usr/lib/trino-server ]] ; then
