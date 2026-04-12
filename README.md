@@ -52,6 +52,15 @@ docker exec -it trino bash
 trino
 ```
 
+3. Replay tpch/tpcds queries
+```shell
+trino --catalog tpch --schema tiny -f /tmp/sql/tpch/q01.sql
+```
+or
+```shell
+trino --catalog tpcds --schema tiny -f /tmp/sql/tpcds/q01.sql
+```
+
 ## Browse Web UI
 - Trino Web UI：[http://localhost:28080](http://localhost:28080)
 - Jaeger UI（Trace）：[http://localhost:16686/](http://localhost:16686)

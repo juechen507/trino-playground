@@ -17,6 +17,7 @@ services:
       - ./init/common:/tmp/common
       - ./healthcheck:/tmp/healthcheck
       - ~/project/trino/core/trino-server/target/trino-server-480.tar.gz:/usr/lib/trino-server.tar.gz
+      - ./sql/trino:/tmp/sql
     healthcheck:
       test: ["CMD", "/tmp/healthcheck/trino-healthcheck.sh"]
       interval: 120s
