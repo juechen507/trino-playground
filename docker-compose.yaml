@@ -18,12 +18,12 @@ services:
       - ./healthcheck:/tmp/healthcheck
       - ~/project/trino/core/trino-server/target/trino-server-480.tar.gz:/usr/lib/trino-server.tar.gz
       - ./sql/trino:/tmp/sql
-    healthcheck:
-      test: ["CMD", "/tmp/healthcheck/trino-healthcheck.sh"]
-      interval: 120s
-      timeout: 60s
-      retries: 5
-      start_period: 60s
+#    healthcheck:
+#      test: ["CMD", "/tmp/healthcheck/trino-healthcheck.sh"]
+#      interval: 120s
+#      timeout: 60s
+#      retries: 5
+#      start_period: 60s
 
   jeager:
     image: jaegertracing/all-in-one:${JAEGER_IMAGE_TAG}
