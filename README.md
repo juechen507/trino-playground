@@ -62,5 +62,7 @@ trino --catalog tpcds --schema tiny -f /tmp/sql/tpcds/q01.sql
 ```
 
 ## Browse Web UI
-- Trino Web UI：[http://localhost:28080](http://localhost:28080)
-- Jaeger UI（Trace）：[http://localhost:16686/](http://localhost:16686)
+- Trino Web UI: [http://localhost:28080](http://localhost:28080)
+- Jaeger UI (Trace): [http://localhost:16686/](http://localhost:16686)
+- Prometheus UI: [http://localhost:29090](http://localhost:29090)
+- Grafana UI: [http://localhost:23000](http://localhost:23000)
