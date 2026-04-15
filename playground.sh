@@ -34,7 +34,7 @@ dockerComposeCommand=""
 testDocker() {
   echo "[INFO] Testing Docker environment by running hello-world..."
   # Use `always` to test network connection
-  docker run --rm --pull always hello-world:linux >/dev/null 2>&1
+  docker run --rm hello-world:linux >/dev/null 2>&1
 
   if [ $? -eq 0 ]; then
     echo "[INFO] Docker check passed: Docker is working correctly!"
