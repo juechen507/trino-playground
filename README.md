@@ -60,6 +60,34 @@ or
 ```shell
 trino --catalog tpcds --schema tiny -f /tmp/sql/tpcds/q01.sql
 ```
+### kafka
+1. Login to the Kafka Docker container using the following command:
+
+```shell
+docker exec -it kafka bash
+```
+
+2. Show topics
+
+```shell
+sh /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server localhost:9092 \
+  --list
+```
+
+3. Produce message
+```shell
+sh /opt/kafka/bin/kafka-console-producer.sh \
+  --bootstrap-server kafka:9092 \
+  --topic trino_query_complete
+```
+
+4. Consume message
+```shell
+sh /opt/kafka/bin/kafka-console-consumer.sh \
+  --bootstrap-server kafka:9092 \
+  --topic trino_query_complete
+```
 
 ## Browse Web UI
 - Trino Web UI: [http://localhost:28080](http://localhost:28080)
