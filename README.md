@@ -23,7 +23,6 @@ The playground runs several services. The TCP ports used may clash with existing
 ## Playground usage
 
 ### Start
-
 ```shell
 ./playground.sh start
 ```
@@ -38,16 +37,16 @@ The playground runs several services. The TCP ports used may clash with existing
 ./playground.sh stop
 ```
 
+## Containner
+
 ### Using Trino CLI in Docker Container
 
 1. Login to the Trino Docker container using the following command:
-
 ```shell
 docker exec -it trino bash
 ```
 
 2. Open the Trino CLI in the container.
-
 ```shell
 trino
 ```
@@ -60,15 +59,14 @@ or
 ```shell
 trino --catalog tpcds --schema tiny -f /tmp/sql/tpcds/q01.sql
 ```
+
 ### kafka
 1. Login to the Kafka Docker container using the following command:
-
 ```shell
 docker exec -it kafka bash
 ```
 
 2. Show topics
-
 ```shell
 sh /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9092 \
@@ -89,8 +87,41 @@ sh /opt/kafka/bin/kafka-console-consumer.sh \
   --topic trino_query_complete
 ```
 
+### postgres
+
+1. Open PostgreSQL CLI in Docker container
+```shell
+psql -U postgres
+```
+
+2. List databases
+```sql
+\l
+```
+
+3. Use database
+```sql
+\c metastore
+```
+
+4. List tables
+```sql
+\dt
+```
+
+5. Query
+```sql
+select * from ${table_name};
+```
+
+6. Exit
+```sql
+\q
+```
+
 ## Browse Web UI
 - Trino Web UI: [http://localhost:28080](http://localhost:28080)
 - Jaeger UI (Trace): [http://localhost:16686/](http://localhost:16686)
 - Prometheus UI: [http://localhost:29090](http://localhost:29090)
 - Grafana UI: [http://localhost:23000](http://localhost:23000)
+- Minio UI: [http://localhost:9000](http://localhost:9000)

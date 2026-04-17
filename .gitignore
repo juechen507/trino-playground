@@ -30,3 +30,4 @@ product-test-reports
 **/dependency-reduced-pom.xml
 .node
 playground-*.log
+data/
