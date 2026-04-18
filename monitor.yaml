@@ -1,0 +1,33 @@
+services:
+  jeager:
+    image: jaegertracing/all-in-one:${JAEGER_IMAGE_TAG}
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+    container_name: jaeger
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    profiles:
+      - monitor
+
+  prometheus:
+    image: prom/prometheus:${PROMETHEUS_IMAGE_TAG}
+    container_name: prometheus
+    ports:
+      - "29090:9090"
+    volumes:
+      - ./init/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    profiles:
+      - monitor
+
+  grafana:
+    image: grafana/grafana:${GRAFANA_IMAGE_TAG}
+    container_name: grafana
+    ports:
+      - "23000:3000"
+    volumes:
+      - ./init/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./init/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ./init/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    profiles:
+      - monitor

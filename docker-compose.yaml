@@ -1,3 +1,7 @@
+include:
+  - path:
+      - ./monitor.yaml
+
 services:
   trino:
     image: eclipse-temurin:${TRINO_IMAGE_TAG}
@@ -21,53 +25,13 @@ services:
     depends_on:
       - kafka
       - hive-metastore
+      - postgres
 #    healthcheck:
 #      test: ["CMD", "/tmp/healthcheck/trino-healthcheck.sh"]
 #      interval: 120s
 #      timeout: 60s
 #      retries: 5
 #      start_period: 60s
-
-  jeager:
-    image: jaegertracing/all-in-one:${JAEGER_IMAGE_TAG}
-    ports:
-      - "16686:16686"
-      - "4317:4317"
-    container_name: jaeger
-    environment:
-      - COLLECTOR_OTLP_ENABLED=true
-
-  prometheus:
-    image: prom/prometheus:${PROMETHEUS_IMAGE_TAG}
-    container_name: prometheus
-    ports:
-      - "29090:9090"
-    volumes:
-      - ./init/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-
-  grafana:
-    image: grafana/grafana:${GRAFANA_IMAGE_TAG}
-    container_name: grafana
-    ports:
-      - "23000:3000"
-    volumes:
-      - ./init/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - ./init/grafana/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
-      - ./init/grafana/dashboards:/etc/grafana/provisioning/dashboards
-
-  kafka:
-    image: apache/kafka:${KAFKA_IMAGE_TAG}
-    container_name: kafka
-    environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_PROCESS_ROLES: broker,controller
-      # it's important for single node in Kafka cluster
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 1
 
   minio:
     image: minio/minio:${MINIO_IMAGE_TAG}
@@ -120,6 +84,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      minio:
+        condition: service_started
 
   postgres:
     image: postgres:${POSTGRES_IMAGE_TAG}
@@ -138,3 +104,17 @@ services:
       interval: 120s
       retries: 5
       start_period: 2s
+
+  kafka:
+    image: apache/kafka:${KAFKA_IMAGE_TAG}
+    container_name: kafka
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_PROCESS_ROLES: broker,controller
+      # it's important for single node in Kafka cluster
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 1
