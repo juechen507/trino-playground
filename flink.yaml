@@ -1,0 +1,65 @@
+services:
+  flink-jobmanager:
+    build: ./docker/flink
+    image: flink-2.0_iceberg-1.10
+    container_name: flink-jobmanager
+    entrypoint: |
+      /bin/bash -c "
+      export HADOOP_CLASSPATH=`/opt/hadoop/bin/hadoop classpath`;
+      /docker-entrypoint.sh jobmanager;
+      "
+    working_dir: /opt/flink
+    volumes:
+      - ./init/flink/hadoop-core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./init/flink/hadoop-hive-site.xml:/opt/flink/conf/hive-site.xml
+      - ./init/flink/flink-sql-iceberg.sh:/opt/flink-client/flink-sql-iceberg.sh
+      - ./init/flink/flink-init-iceberg.sql:/opt/flink-client/flink-init-iceberg.sql
+    profiles: [ "flink" ]
+    ports:
+      - "28081:8081"
+    environment:
+      - AWS_ACCESS_KEY_ID=minio
+      - AWS_SECRET_ACCESS_KEY=minio123
+      - AWS_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-1
+      - S3_ENDPOINT=http://minio:9000
+      - S3_PATH_STYLE_ACCESS=true
+      - |
+        FLINK_PROPERTIES=
+        fs.s3a.impl: org.apache.hadoop.fs.s3a.S3AFileSystem
+        fs.s3a.access.key: minio
+        fs.s3a.secret.key: minio123
+        fs.s3a.endpoint: http://minio:9000
+        fs.s3a.path.style.access: true
+        jobmanager.rpc.address: flink-jobmanager
+        state.backend: rocksdb
+        state.backend.incremental: true
+        state.checkpoints.dir: s3a://datalake/flink/cluster-common/checkpoints/
+        state.savepoints.dir: s3a://datalake/flink/cluster-common/savepoints/
+
+  flink-taskmanager:
+    build: ./docker/flink
+    image: flink-2.0_iceberg-1.10
+    container_name: flink-taskmanager
+    entrypoint: |
+      /bin/bash -c "
+      export HADOOP_CLASSPATH=`/opt/hadoop//bin/hadoop classpath`;
+      /docker-entrypoint.sh taskmanager;
+      "
+    working_dir: /opt/flink
+    volumes:
+      - ./init/flink/hadoop-core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml
+      - ./init/flink/hadoop-hive-site.xml:/opt/flink/conf/hive-site.xml
+    profiles: [ "flink" ]
+    environment:
+      - JOB_MANAGER_RPC_ADDRESS=flink-jobmanager
+      - AWS_ACCESS_KEY_ID=minio
+      - AWS_SECRET_ACCESS_KEY=minio123
+      - AWS_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-1
+      - S3_ENDPOINT=http://minio:9000
+      - S3_PATH_STYLE_ACCESS=true
+      - |
+        FLINK_PROPERTIES=
+        taskmanager.numberOfTaskSlots: 2
+        taskmanager.memory.process.size: 1g

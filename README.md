@@ -132,3 +132,4 @@ select * from ${table_name};
 - Prometheus UI: [http://localhost:29090](http://localhost:29090)
 - Grafana UI: [http://localhost:23000](http://localhost:23000)
 - Minio UI: [http://localhost:9000](http://localhost:9000)
+- Flink UI: [http://localhost:28081](http://localhost:28081)

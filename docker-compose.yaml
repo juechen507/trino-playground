@@ -1,6 +1,7 @@
 include:
   - path:
       - ./monitor.yaml
+      - ./flink.yaml
 
 services:
   trino:
@@ -118,3 +119,8 @@ services:
       # it's important for single node in Kafka cluster
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_OFFSETS_TOPIC_NUM_PARTITIONS: 1
+
+networks:
+  default:
+    # must set, otherwise will be set trino-playground_default which cannot be used when flink access hms
+    name: trino-playground
