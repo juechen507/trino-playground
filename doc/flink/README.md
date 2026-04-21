@@ -38,9 +38,8 @@ CREATE CATALOG iceberg WITH (
     'warehouse'='s3a://datalake/iceberg'
 );
 
--- 查看已经存在的database
+-- 查看已经存在的database（语法与 Trino/SparkSQL 略有不同）
 SHOW DATABASES FROM iceberg;
-
 CREATE DATABASE IF NOT EXISTS iceberg.demo;
 
 -- 表不存在则创建

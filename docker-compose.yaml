@@ -2,6 +2,7 @@ include:
   - path:
       - ./monitor.yaml
       - ./flink.yaml
+      - ./spark.yaml
 
 services:
   trino:

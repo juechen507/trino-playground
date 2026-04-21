@@ -1,0 +1,26 @@
+services:
+  spark:
+    build: ./docker/spark
+    image: spark-4.0.2_iceberg-1.10
+    container_name: spark
+    working_dir: /opt/spark
+    profiles: [ "spark" ]
+    entrypoint: |
+      /bin/bash -c "
+      /opt/spark/sbin/start-master.sh && \
+      /opt/spark/sbin/start-worker.sh spark://spark:7077 && \
+      tail -f /dev/null
+      "
+    ports:
+      - 4040:4040 # Spark Web UIj
+      - 28082:8080 # Master UI
+      - 28083:8081 # Worker UIj
+    environment:
+      - AWS_ACCESS_KEY_ID=minio
+      - AWS_SECRET_ACCESS_KEY=minio123
+      - AWS_REGION=us-east-1
+      - AWS_DEFAULT_REGION=us-east-1
+      - S3_ENDPOINT=http://minio:9000
+      - S3_PATH_STYLE_ACCESS=true
+    volumes:
+      - ./init/spark/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf

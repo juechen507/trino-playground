@@ -133,3 +133,4 @@ select * from ${table_name};
 - Grafana UI: [http://localhost:23000](http://localhost:23000)
 - Minio UI: [http://localhost:9000](http://localhost:9000)
 - Flink UI: [http://localhost:28081](http://localhost:28081)
+- Spark Web UI: [http://localhost:4040](http://localhost:4040)
