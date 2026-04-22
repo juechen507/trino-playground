@@ -24,3 +24,4 @@ services:
       - S3_PATH_STYLE_ACCESS=true
     volumes:
       - ./init/spark/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+      - ./init/spark/kafka_to_iceberg.py:/tmp/kafka_to_iceberg.py
