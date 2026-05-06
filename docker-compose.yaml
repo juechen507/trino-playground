@@ -3,6 +3,7 @@ include:
       - ./monitor.yaml
       - ./flink.yaml
       - ./spark.yaml
+      - ./airflow.yaml
 
 services:
   trino:

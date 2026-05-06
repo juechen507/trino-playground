@@ -26,6 +26,9 @@ The playground runs several services. The TCP ports used may clash with existing
 | jeager           | 16686, 4317        |
 | prometheus       | 29090              |
 | grafana          | 23000              |
+| flink            | 28081              |
+| spark            | 4040               |
+| airflow          | 28090              |
 
 ## Playground usage
 
@@ -136,3 +139,4 @@ select * from ${table_name};
 - Spark Application Web UI: [http://localhost:4040](http://localhost:4040)
 - Spark Master UI: [http://localhost:28082](http://localhost:28082)
 - Spark Worker UI: [http://localhost:28083](http://localhost:28083)
+- Airflow Web UI: [http://localhost:28090](http://localhost:28090)

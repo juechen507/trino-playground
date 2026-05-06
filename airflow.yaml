@@ -1,0 +1,19 @@
+services:
+  airflow:
+    build: ./docker/airflow
+    image: my-airflow-3.2.1_python-3.12
+    container_name: airflow
+    command: standalone
+    working_dir: /opt/airflow
+    user: airflow
+    volumes:
+      - ./conf/airflow/dags/:/opt/airflow/dags/
+      - ./data/airflow/:/opt/airflow/logs/
+    profiles: [ "airflow" ]
+    ports:
+      - "28090:8080"
+    environment:
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: minio
+      S3_SECRET_KEY: minio123
+      S3_PATH_STYLE_ACCESS: "true"
